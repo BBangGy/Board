@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>로그인 - SAUB</title>
+    <link rel="stylesheet" href="/assets/styles/common.min.css">
+    <link rel="stylesheet" href="/user/assets/styles/login.min.css">
+    <script src="/assets/scripts/common.js"></script>
+    <script defer type="text/javascript" src="/user/assets/scripts/login.js"></script>
+</head>
+<body>
+<th:block th:replace="~{/fragments/header :: header}">
+
+</th:block>
+<form novalidate id="loginForm">
+    <h1 class="title">로그인</h1>
+    <label class="--object-label">
+        <span class="---caption">이메일</span>
+        <input autofocus required autocomplete="email" type="email" class="--object-field ---field" maxlength="50" minlength="8" name="email" spellcheck="false">
+        <span class="---warning">이메일을 입력해 주세요.</span>
+    </label>
+    <label class="--object-label">
+        <span class="---caption">비밀번호</span>
+        <input required autocomplete="off" class="--object-field ---field" maxlength="50" minlength="6" name="password" spellcheck="false" type="password">
+        <span class="---warning">비밀번호를 입력해 주세요.</span>
+    </label>
+    <label class="--object-check">
+        <input type="checkbox" name="remember" class="---input">
+        <span class="---box"></span>
+        <span class="---caption">이메일을 기억할까요?</span>
+    </label>
+    <button class="--object-button -color-green" type="submit">
+        <img src="/user/assets/images/login/login-form.submit.png" alt="" class="---icon" draggable="false">
+        <span class="---caption">로그인</span>
+    </button>
+    <ul class="menu">
+        <li class="item">
+            <span class="caption">아직 계정이 없으신가요?</span>
+            <a href="/user/register" class="link">회원가입</a>
+        </li>
+        <li class="item">
+            <span class="caption">계정 정보를 분실하셨나요?</span>
+            <a href="/user/recover" class="link">계정 복구</a>
+        </li>
+    </ul>
+</form>
+</body>
+</html>

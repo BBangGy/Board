@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hgc.studyadvanceduserbbs.mappers.UserMapper">
+    <insert id="insert">
+        insert into `saub`.`users` (email,
+                                    password,
+                                    nickname, name, birth, gender, contact_mvno_code, contact_first,
+                                    contact_second, contact_third, address_postal, address_primary, address_secondary,
+                                    last_signed_at, last_signed_ua)
+        values (#{user.email}, #{user.password}, #{user.nickname}, #{user.name}, #{user.birth}, #{user.gender},
+                #{user.contactMvnoCode}, #{user.contactFirst}, #{user.contactSecond}, #{user.contactThird},
+                #{user.addressPostal}, #{user.addressPrimary}, #{user.addressSecondary}, #{user.lastSignedAt},
+                #{user.lastSignedUa})
+    </insert>
+    <update id="update">
+        update `saub`.`users`
+        set `password` =#{user.password},
+            `nickname` =#{user.nickname},
+            `name` =#{user.name},
+            `birth` =#{user.birth},
+            `gender` =#{user.gender},
+            `contact_mvno_code` =#{user.contactMvnoCode},
+            `contact_first` =#{user.contactFirst},
+            `contact_second` =#{user.contactSecond},
+            `contact_third` =#{user.contactThird},
+            `address_postal` =#{user.addressPostal},
+            `address_primary` =#{user.addressPrimary},
+            `address_secondary` =#{user.addressSecondary},
+            `last_signed_at` =#{user.lastSignedAt},
+            `last_signed_ua` =#{user.lastSignedUa},
+            `is_admin` =#{user.isAdmin},
+            `is_deleted` =#{user.isDeleted},
+            `is_suspended` =#{user.isSuspended},
+            `created_at` =#{user.createdAt},
+            `modified_at`=#{user.modifiedAt}
+        where `email` = #{user.email};
+    </update>
+    <select id="selectCountByEmail" resultType="java.lang.Integer">
+        select count(0)
+        from `saub`.`users`
+        where `email` = #{email};
+    </select>
+    <select id="selectCountByNickname" resultType="java.lang.Integer">
+        select count(0)
+        from `saub`.`users`
+        where `nickname` = #{nickname};
+
+    </select>
+    <select id="selectCountByContact" resultType="java.lang.Integer">
+        select count(0)
+        from `saub`.`users`
+        where `contact_first` = #{contactFirst}
+          and `contact_second` = #{contactSecond}
+          and `contact_third` = #{contactThird};
+
+    </select>
+    <select id="selectByEmail" resultType="com.hgc.studyadvanceduserbbs.entities.UserEntity">
+        select `email` as `email`,
+               `password` as `password`,
+               `nickname` as `nickname`,
+               `name` as `name`,
+               `birth` as `birth`,
+               `gender` as `gender`,
+               `contact_mvno_code` as `contactMvnoCode`,
+               `contact_first` as `contactFirst`,
+               `contact_second` as `contactSecond`,
+               `contact_third` as `contactThird`,
+               `address_postal` as `addressPostal`,
+               `address_primary` as `addressPrimary`,
+               `address_secondary` as `addressSecondary`,
+               `last_signed_at` as `lastSignedAt`,
+               `last_signed_ua` as `lastSignedUa`,
+               `is_admin` as `isAdmin`,
+               `is_deleted` as `isDeleted`,
+               `is_suspended` as `isSuspended`,
+               `created_at` as `createdAt`,
+               `modified_at` as `modifiedAt`
+        from `saub`.`users`
+        where `email` = #{email};
+    </select>
+</mapper>

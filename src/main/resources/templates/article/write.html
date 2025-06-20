@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>게시글 작성 - SAUB</title>
+    <link rel="stylesheet" href="/assets/libraries/ckeditor5/ckeditor5.css">
+    <link rel="stylesheet" href="/assets/libraries/ckeditor5/ckeditor5-custom.css">
+    <link rel="stylesheet" href="/assets/styles/common.min.css">
+    <link rel="stylesheet" href="/article/assets/styles/write.min.css">
+    <script th:if="${session.signedUser==null}">
+        alert('로그인 후 이용할수 있습니다.');
+        location.href = `${origin}/user/login?forward=${encodeURI(location.href)}`;
+        //   origin=http://localhost:8080 이다.
+        //forward = http://localhost:8080/article/write?boardId=free 이다.
+        //권한이 없어서로그인으로 튕겨졌는데 로그인 한뒤 바로 다시 튕겨진 곳으로 돌아가기 위해서 Forward를 사용.
+    </script>
+    <script th:if="${board==null}">
+        alert('존재하지 않는 게시판입니다.');
+        if (history.length > 1) {
+            history.back();
+        } else {
+            window.close();
+        }
+    </script>
+    <script src="/assets/libraries/ckeditor5/ckeditor5.js" type="module"></script>
+    <!--    ckeditor는 타입을 모듈로 해야 사용할수 있다.  ⬆ ⬇-->
+    <script type="importmap">
+        {
+            "imports":{
+                "ckeditor5":"/assets/libraries/ckeditor5/ckeditor5.js",
+                "ckeditor5/":"/assets/libraries/ckeditor5/"
+            }
+        }
+    </script>
+    <script src="/assets/scripts/common.js" type="text/javascript"></script>
+    <script defer src="/article/assets/scripts/write-ckeditor.js" type="module"></script>
+    <script defer src="/article/assets/scripts/write.js" type="text/javascript"></script>
+</head>
+<body th:if="${session.signedUser!=null && board!= null}">
+<!--로그인도 해야하고, 게시판도 존재를 해야한다.-->
+<th:block th:replace="~{/fragments/header :: header}">
+
+</th:block>
+<div class="--loading" id="loading">
+    <img class="---icon" src="/assets/images/loading.png" alt="">
+    <span class="---caption">잠시만 기다려 주세요.</span>
+</div>
+<div class="--dialog"></div>
+<form novalidate id="writeForm">
+    <input hidden name="boardId" th:value="${board.getId()}" type="hidden">
+    <h1 class="title">게시글 작성</h1>
+    <label class="--object-label">
+        <span class="---caption">게시판</span>
+        <input readonly class="--object-field ---field" name="board" type="text" th:value="${board.getDisplayText()}">
+    </label>
+    <label class="--object-label">
+        <span class="---caption">제목</span>
+        <input autofocus autocomplete="off" class="--object-field ---field" maxlength="100" minlength="1" name="title"
+               type="text">
+    </label>
+    <label class="--object-label">
+        <span class="---caption">내용</span>
+        <textarea autocomplete="off" name="content"></textarea>
+    </label>
+    <div class="button-container">
+        <button class="--object-button -color-gray" name="cancel" type="button">돌아가기</button>
+        <button class="--object-button -color-green" type="submit">작성</button>
+    </div>
+
+
+</form>
+</body>
+</html>

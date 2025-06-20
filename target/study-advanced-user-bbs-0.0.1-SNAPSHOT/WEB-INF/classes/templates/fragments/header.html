@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<header id="header" th:fragment="header">
+    <a href="#" class="logo">로고자리</a>
+    <ul class="menu">
+        <li class="item" th:each="board:${boards}">
+            <a th:href="@{/board/list(id=${board.getId()})}" th:text="${board.getDisplayText()}" class="link"></a>
+        </li>
+    </ul>
+    <span class="-flex-stretch"></span>
+    <ul class="menu" th:if="${session.signedUser==null}">
+        <li class="item">
+            <a th:href="@{/user/register}" class="link">회원가입</a>
+        </li>
+        <li class="item">
+            <a th:href="@{/user/login}" class="link">로그인</a>
+        </li>
+    </ul>
+    <ul class="menu" th:if="${session.signedUser!=null}">
+        <li class="item">
+            <a th:href="@{/user/my}" class="link">마이페이지</a>
+        </li>
+        <li class="item">
+            <a th:href="@{/user/logout}" class="link">로그아웃</a>
+        </li>
+    </ul>
+</header>
+</html>

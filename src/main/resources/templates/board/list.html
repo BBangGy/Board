@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>리스트-SAUB</title>
+    <link rel="stylesheet" href="/assets/styles/common.min.css">
+    <link rel="stylesheet" href="/board/assets/styles/list.min.css">
+    <script th:if="${board==null}">
+        alert('존재하지 않는 게시판입니다.');
+        if (history.length > 1) {
+            history.back();
+        } else {
+            window.close();
+        }
+    </script>
+    <script src="/assets/scripts/common.js" type="text/javascript"></script>
+    <script defer src="/board/assets/scripts/list.js" type="text/javascript"></script>
+</head>
+<body th:if="${board!=null}">
+<th:block th:replace="~{/fragments/header :: header}">
+
+</th:block>
+<!--th:block은 가상의 공간이라서 태그로 해석되지 않는다.
+조각을 삽입할때는 ~{}안에 넣는다. ->{}여기에는 경로와
+-->
+<div id="container">
+    <h1 class="title" th:text="${board.getDisplayText()}"></h1>
+    <ul class="board-container">
+        <li th:each="boardText:${boards}" th:classappend="${boardText.getId().equals(board.getId())}?'-selected'">
+            <a th:href="@{/board/list(id=${boardText.getId()})}" th:text="${boardText.getDisplayText()}"></a>
+        </li>
+        <li class="-flex-stretch"></li>
+        <li class="writeComment">
+            <a th:href="@{/article/write(boardId=${board.getId()})}">게시글 작성</a>
+        </li>
+    </ul>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">조회수</th>
+            <th scope="col">작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="article:${articles}">
+            <th scope="row" th:text="${article.getId()}"></th>
+            <td>
+                <a th:href="@{/article/(id=${article.getId()})}" class="link" th:text="${article.getTitle()}">제목 자리</a>
+            </td>
+            <td th:text="${article.getUserNickname()}">작성자 자리</td>
+            <td th:text="${article.getView()}">17</td>
+            <td th:text="${#temporals.format(article.getCreatedAt(),'yyyy-MM-dd HH:mm:ss')}">2025-05-27 19:19:19</td>
+        </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">
+                    <div class="page-container">
+                        <a href="" class="page" th:each="page: ${#numbers.sequence(1,pageVo.maxPage)}" th:text="${page}"
+                           th:href="@{/board/list(id=${board.getId()},page=${page})}"
+                           th:classappend="${page == pageVo.page}?'-selected'"></a>
+                        <!--                    classappend는 조건이 부합하면 이어 붙인다.-->
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <form novalidate method="get" id="searchForm">
+                        <input type="hidden" name="id" hidden th:value="${board.getId()}">
+                        <label class="--object-label">
+                            <select  name="by" id="" class="--object-field ---field">
+                                <option th:selected="${searchVo==null ||searchVo.getBy() eq 'title'}" value="title">제목</option>
+                                <option th:selected="${searchVo!=null && searchVo.getBy() eq 'content'}" value="content">제목 + 내용</option>
+                                <option th:selected="${searchVo!=null && searchVo.getBy() eq 'writer'}" value="writer">작성자</option>
+                            </select>
+                        </label>
+                        <label class="--object-label">
+                            <input autocomplete="off" type="text" class="--object-field ---field" maxlength="50" minlength="0" name="keyword" placeholder="검색어를 입력해 주세요."  th:value="${searchVo==null ? '':searchVo.getKeyword()}">
+                        </label>
+                        <button class="--object-button -color-green" type="submit">검색</button>
+                    </form>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+</body>
+</html>

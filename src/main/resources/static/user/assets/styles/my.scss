@@ -1,0 +1,78 @@
+@charset "UTF-8";
+
+@import "../../../assets/styles/_def";
+
+//flex($d,$a,$j,$g:0){//함수를 만든것인데 매개변수는 4개 이고 $g는 기본값 0
+//  display: flex;
+//  flex-direction: $d;
+//  align-items: $a;
+//  justify-content: $j;
+//  gap: $g;
+
+#addressFindDialog {
+  @include flex(column, center, center);
+
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  backdrop-filter: blur(0.5rem);
+  background-color: #212325a0;
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 175ms;
+  transition-property: opacity;
+  transition-timing-function: ease;
+  z-index: 9;
+
+  &.-visible {
+    opacity: 1;
+    pointer-events: auto;
+
+    > .modal {
+      transform: scale(100%);
+    }
+  }
+
+  > .modal {
+    width: 22.5rem;
+    aspect-ratio: 3/4;
+    background-color: #ffffff;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    transform: scale(97.5%);
+    transition-duration: 175ms;
+    transition-property: transform;
+    transition-timing-function: ease;
+  }
+}
+
+body {
+  @include flex(column, stretch, flex-start);
+  width: 100%;
+}
+
+#myPageForm {
+  align-self: center;
+  width: 30rem;
+  padding: 2rem;
+  >.---title{
+    font-size: 1.75rem;
+    font-weight: 200;
+    margin-bottom: 1rem;
+  }
+  > .container {
+    @include flex(column, stretch,flex-start, 0.9rem);
+    width: 100%;
+
+    >.--object-label>.---row>input[name="contactSecond"],
+    >.--object-label>.---row>input[name="contactThird"] {
+      text-align: center;
+    }
+  }
+  >button{
+    margin-top: 1rem;
+    align-self: end;
+  }
+}

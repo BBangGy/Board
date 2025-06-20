@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hgc.studyadvanceduserbbs.mappers.ArticleMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into `saub`.`articles`
+        (
+         `board_id`,
+         `user_email`,
+         `title`,
+         `content`,
+         `view`,
+         `created_at`,
+         `modified_at`,
+         `is_deleted`)
+        values (#{article.boardId}, #{article.userEmail}, #{article.title}, #{article.content}, #{article.view}, #{article.createdAt}, #{article.modifiedAt},#{article.isDeleted})
+    </insert>
+    <update id="update">
+        update `saub`.`articles`
+        set `board_id`    = #{article.boardId},
+            `user_email`  = #{article.userEmail},
+            `title`       = #{article.title},
+            `content`     = #{article.content},
+            `view`        = #{article.view},
+            `created_at`  = #{article.createdAt},
+            `modified_at` = #{article.modifiedAt},
+            `is_deleted`  = #{article.isDeleted}
+        where id = #{article.id};
+    </update>
+    <select id="selectById" resultType="com.hgc.studyadvanceduserbbs.entities.ArticleEntity">
+        select `id`          as `id`,
+               `board_id`    as `boardId`,
+               `user_email`  as `userEmail`,
+               `title`       as `title`,
+               `content`     as `content`,
+               `view`        as `view`,
+               `created_at`  as `createdAt`,
+               `modified_at` as `modifiedAt`,
+               `is_deleted`  as `isDeleted`
+        from `saub`.`articles`
+        where `id` = #{id}
+        limit 1;
+    </select>
+    <select id="selectPrevious" resultType="com.hgc.studyadvanceduserbbs.entities.ArticleEntity">
+        select `id`          as `id`,
+               `board_id`    as `boardId`,
+               `user_email`  as `userEmail`,
+               `title`       as `title`,
+               `content`     as `content`,
+               `view`        as `view`,
+               `created_at`  as `createdAt`,
+               `modified_at` as `modifiedAt`,
+               `is_deleted`  as `isDeleted`
+        from `saub`.`articles`
+        where `id` > #{id} and `is_deleted`=false
+        order by `id`
+        limit 1;
+    </select>
+    <select id="selectNext" resultType="com.hgc.studyadvanceduserbbs.entities.ArticleEntity"><![CDATA[
+        select `id`          as `id`,
+               `board_id`    as `boardId`,
+               `user_email`  as `userEmail`,
+               `title`       as `title`,
+               `content`     as `content`,
+               `view`        as `view`,
+               `created_at`  as `createdAt`,
+               `modified_at` as `modifiedAt`,
+               `is_deleted`  as `isDeleted`
+        from `saub`.`articles`
+        where `id` < #{id} and `is_deleted`=false
+        order by `id` desc
+        limit 1;
+# cdata안에 잇는 <,>는 영향을 받지 않는다.
+    ]]></select>
+    <select id="selectByBoardId">
+        select `t0`.`id`          as `id`,
+               `t0`.`board_id`    as `boardId`,
+               `t0`.`user_email`  as `userEmail`,
+               `t0`.`title`       as `title`,
+               `t0`.`content`     as `content`,
+               `t0`.`view`        as `view`,
+               `t0`.`created_at`  as `createdAt`,
+               `t0`.`modified_at` as `modifiedAt`,
+               `t0`.`is_deleted`  as `isDeleted`,
+               `t1`.`nickname`    as `userNickname`
+        from `saub`.`articles` as `t0`
+                 left join `saub`.`users` as `t1` on `t0`.`user_email` = `t1`.`email`
+        where `t0`.`board_id` = #{boardId}
+        order by `t0`.`id` desc
+        limit #{pageVo.rowCount} offset #{pageVo.dbOffset};
+    </select>
+    <select id="selectCountByBoardId" resultType="java.lang.Integer">
+        select count(0)
+        from `saub`.`articles`
+        where `board_id` = #{boardId};
+    </select>
+    <select id="selectCountBySearch" resultType="java.lang.Integer">
+        select count(0)
+        from `saub`.`articles` as `t0`
+                 left join `saub`.`users` as `t1` on `t0`.`user_email` = `t1`.`email`
+        where `t0`.`board_id` = #{searchVo.id}
+          and if(#{searchVo.by} = 'title', `t0`.`title` like concat('%', #{searchVo.keyword}, '%'), TRUE)
+          and if(#{searchVo.by} = 'content', `t0`.`title` like concat('%', #{searchVo.keyword}, '%') or`t0`.`content` like concat('%', #{searchVo.keyword}, '%'), TRUE)
+          and if(#{searchVo.by} = 'writer', `t1`.nickname like concat('%', #{searchVo.keyword}, '%'),TRUE);
+
+    </select>
+    <select id="selectBySearch" resultType="com.hgc.studyadvanceduserbbs.vos.ArticleVo">
+        select `t0`.`id`          as `id`,
+               `t0`.`board_id`    as `boardId`,
+               `t0`.`user_email`  as `userEmail`,
+               `t0`.`title`       as `title`,
+               `t0`.`content`     as `content`,
+               `t0`.`view`        as `view`,
+               `t0`.`created_at`  as `createdAt`,
+               `t0`.`modified_at` as `modifiedAt`,
+               `t0`.`is_deleted`  as `isDeleted`,
+               `t1`.`nickname`    as `userNickname`
+        from `saub`.`articles` as `t0`
+                 left join `saub`.`users` as `t1` on `t0`.`user_email` = `t1`.`email`
+        where `t0`.`board_id` = #{searchVo.id}
+          and if(#{searchVo.by} = 'title', `t0`.`title` like concat('%', #{searchVo.keyword}, '%'), TRUE)
+          and if(#{searchVo.by} = 'content', `t0`.`title` like concat('%', #{searchVo.keyword}, '%') or
+                                             `t0`.`content` like concat('%', #{searchVo.keyword}, '%'), TRUE)
+          and if(#{searchVo.by} = 'writer', `t1`.nickname like concat('%', #{searchVo.keyword}, '%'), TRUE)
+        order by `t0`.`id` desc
+        limit #{pageVo.rowCount} offset #{pageVo.dbOffset};
+    </select>
+</mapper>

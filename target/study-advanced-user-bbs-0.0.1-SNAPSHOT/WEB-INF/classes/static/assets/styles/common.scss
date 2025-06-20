@@ -1,0 +1,202 @@
+@charset "UTF-8";
+
+@use "sass:color";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import "./object/field";
+@import "./object/button";
+@import "./object/check";
+@import "./object/label";
+
+* {
+  box-sizing: border-box;
+}
+
+a[href] {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  min-height: 100%;
+  background-color: #fafcfe;
+  color: #212325;
+  cursor: default;
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 300;
+  margin: initial;
+  user-select: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font: inherit;
+  margin-block: initial;
+  margin-inline: initial;
+}
+
+html {
+  height: 100%;
+}
+
+button, input, select, textarea {
+  background-color: initial;
+  border: initial;
+  color: inherit;
+  font: inherit;
+  margin: initial;
+  margin-block: initial;
+  margin-inline: initial;
+  letter-spacing: initial;
+  outline: initial;
+  padding: initial;
+  padding-block: initial;
+  padding-inline: initial;
+  text-indent: initial;
+  text-shadow: initial;
+  text-transform: initial;
+  word-spacing: initial;
+}
+
+ol, ul {
+  list-style: none;
+  margin-block: initial;
+  padding-inline: initial;
+}
+
+.--dialog {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(0.5rem);
+  background-color: #212325a0;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  transition-duration: 175ms;
+  transition-property: opacity;
+  transition-timing-function: ease;
+  z-index: 8;
+
+  &.-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  > .---modal {
+    @include flex(column, stretch, flex-start, 0.75rem);
+    top: 50%;
+    left: 50%;
+    min-width: 20rem;
+    background-color: #fafcfe;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 1.25rem #21232560;
+    opacity: 0;
+    overflow: hidden;
+    padding: 1.625rem 1.75rem;
+    pointer-events: none;
+    position: fixed;
+    transform: scale(98.75%) translate(-50%, -50%);
+    transition-duration: 175ms;
+    transition-property: opacity, transform;
+    transition-timing-function: ease;
+
+    &.-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(100%) translate(-50%, -50%);
+    }
+
+    > .---title {
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    > .---content {
+      text-align: justify;
+    }
+
+    > .---button-container {
+      @include flex(row, stretch, center, 0.5rem);
+    }
+  }
+}
+
+.--loading {
+  @include flex(column, center, center, 1.25rem);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(0.5rem);
+  background-color: #212325a0;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  transition-duration: 175ms;
+  transition-property: opacity;
+  transition-timing-function: ease;
+  z-index: 7;
+  &.-visible{
+    opacity:1;
+    pointer-events: auto;
+    >.---icon{
+      top: 0;
+      opacity: 1;
+    }
+    >.---caption{
+      top: 0;
+      opacity: 1;
+      transition-delay: 100ms;
+    }
+  }
+  >.---icon{
+    @keyframes animation {
+      from {
+         transform: rotateZ(0deg);
+      }
+      to {
+        transform: rotateZ(360deg);
+      }
+    }
+    top: 0.25rem;
+    width: 3.5rem;
+    animation-duration: 1000ms;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-name: animation;
+    opacity: 0;
+    position: relative;
+    transition-duration: 175ms;
+    transition-property: top,opacity;
+    transition-timing-function: ease;
+  }
+  >.---caption{
+    top: 0.25rem;
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 400;
+    opacity: 0;
+    position: relative;
+    transition-duration: 175ms;
+    transition-property: top,opacity;
+    transition-timing-function: ease;
+  }
+}
+
+body:has(.--dialog.-visible) {
+  overflow: hidden !important;
+}
+
+
+#header {
+  @include flex(row, center, flex-start, 0.375rem);
+  top: 0;
+  backdrop-filter: blur(0.25rem);
+  background-color: color.adjust(#fafcfe,$alpha:-0.375, $lightness: -3.75%,$saturation:-50%);
+  padding: 1.25rem 1.5rem;
+  position: sticky;
+  > .menu {
+    @include flex(row, center, flex-start, 0.5rem);
+  }
+}

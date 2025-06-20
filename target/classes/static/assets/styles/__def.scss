@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+@mixin flex($d,$a,$j,$g:0){//함수를 만든것인데 매개변수는 4개 이고 $g는 기본값 0
+  display: flex;
+  align-items: $a;
+  justify-content: $j;
+  gap: $g;
+  flex-direction: $d;
+
+  >*{
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+   >.-flex-stretch{
+     flex-grow: 1;
+     flex-shrink: 1;
+   }
+}

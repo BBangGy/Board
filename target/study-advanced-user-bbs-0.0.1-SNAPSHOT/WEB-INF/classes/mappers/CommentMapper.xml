@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hgc.studyadvanceduserbbs.mappers.CommentMapper">
+    <insert id="insert"
+    useGeneratedKeys="true"
+    keyProperty="id"
+    keyColumn="id">
+        insert into `saub`.`comments`
+        (`article_id`, `user_email`, `comment_id`, `content`, `created_at`, `is_deleted`)
+        values (#{comment.articleId}, #{comment.userEmail}, #{comment.commentId}, #{comment.content}, #{comment.createdAt},#{comment.isDeleted});
+
+    </insert>
+    <update id="update">
+        update `saub`.`comments`
+        set `article_id`=#{comment.articleId},
+            `user_email` =#{comment.userEmail},
+            `comment_id`=#{comment.commentId},
+            `content`=#{comment.content},
+            `created_at`=#{comment.createdAt},
+            `is_deleted`=#{comment.isDeleted}
+        where `id` = #{comment.id}
+        limit 1;
+    </update>
+    <select id="selectByArticleId" resultType="com.hgc.studyadvanceduserbbs.vos.CommentVo">
+        select `t0`.`id`         as `id`,
+               `t0`.`article_id` as `articleId`,
+               `t0`.`user_email` as `userEMail`,
+               `t0`.`comment_id` as `commentId`,
+               `t0`.`content`    as `content`,
+               `t0`.`created_at` as `createdAt`,
+               `t0`.`is_deleted` as `isDeleted`,
+               `t1`.`nickname` as `userNickname`
+        from `saub`.`comments` as `t0`
+                 left join `saub`.`users` as `t1` on `t0`.`user_email` = `t1`.`email`
+        where `t0`.`article_id` = #{articleId}
+    </select>
+    <select id="selectById" resultType="com.hgc.studyadvanceduserbbs.entities.CommentEntity">
+        select `id` as `id`,
+               `article_id` as `articleId`,
+               `user_email` as `userEMail`,
+               `comment_id` as `commentId`,
+               `content` as `content`,
+               `created_at` as `createdAt`,
+               `is_deleted` as `isDeleted`
+        from `saub`.`comments`
+        where `id`=#{id}
+    </select>
+</mapper>

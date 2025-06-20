@@ -1,0 +1,192 @@
+body {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+  flex-direction: column;
+}
+body > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+body > .-flex-stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+#recoverForm {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.375rem;
+  flex-direction: column;
+  width: 32.5rem;
+  align-self: center;
+  padding: 2rem;
+}
+#recoverForm > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#recoverForm > .-flex-stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#recoverForm > .title {
+  font-size: 1.75rem;
+  font-weight: 200;
+  margin-bottom: 1rem;
+}
+#recoverForm > .type {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+#recoverForm > .type > .label {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 0.0625rem solid #eaecee;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  padding: 1rem 1.25rem;
+}
+#recoverForm > .type > .label > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#recoverForm > .type > .label > .-flex-stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#recoverForm > .type > .label:hover {
+  border-color: #e0e2e4;
+}
+#recoverForm > .type > .label:has(> .input:checked) {
+  border-color: #1abc9c;
+  outline: 0.025rem solid #1abc9c;
+}
+#recoverForm > .type > .label > .input {
+  display: none;
+}
+#recoverForm > .type > .label > .title {
+  font-size: 1.25rem;
+  font-weight: 200;
+}
+#recoverForm > .type > .label > .message {
+  line-height: 1.375;
+  text-align: justify;
+}
+#recoverForm > .container {
+  display: none;
+  margin: 0.625rem 0;
+}
+#recoverForm > .container.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 0.0625rem solid #eaecee;
+  border-radius: 0.25rem;
+  padding: 1rem 1.25rem;
+}
+#recoverForm > .container.empty > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#recoverForm > .container.empty > .-flex-stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#recoverForm > .container.email, #recoverForm > .container.password {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.375rem;
+  flex-direction: column;
+  display: none;
+}
+#recoverForm > .container.email > *, #recoverForm > .container.password > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#recoverForm > .container.email > .-flex-stretch, #recoverForm > .container.password > .-flex-stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#recoverForm > .type:has(> label > .input[value=email]:checked) ~ .container.empty {
+  display: none;
+}
+#recoverForm > .type:has(> label > .input[value=email]:checked) ~ .container.email {
+  display: flex;
+}
+#recoverForm > .type:has(> label > .input[value=password]:checked) ~ .container.empty {
+  display: none;
+}
+#recoverForm > .type:has(> label > .input[value=password]:checked) ~ .container.password {
+  display: flex;
+}
+#recoverForm > .container.email .gender-wrapper {
+  background-color: #ffffff;
+  border: 0.0625rem solid #e0e2e4;
+  border-radius: 0.25rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  overflow: hidden;
+}
+#recoverForm > .container.email .gender-wrapper > .gender {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-direction: row;
+  cursor: pointer;
+  padding: 0 0.625rem;
+}
+#recoverForm > .container.email .gender-wrapper > .gender > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#recoverForm > .container.email .gender-wrapper > .gender > .-flex-stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#recoverForm > .container.email .gender-wrapper > .gender:not(:last-child) {
+  border-right: 0.0625rem solid #e0e2e4;
+}
+#recoverForm > .container.email .gender-wrapper > .gender:has(.input:checked) {
+  background-color: #1abc9c;
+  color: #ffffff;
+}
+#recoverForm > .container.email .gender-wrapper > .gender > .input {
+  display: none;
+}
+#recoverForm > .container.email [name=eName],
+#recoverForm > .container.email [name=eContactSecond],
+#recoverForm > .container.email [name=eContactThird] {
+  width: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#recoverForm > .button-container {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  gap: 0.375rem;
+  flex-direction: row;
+}
+#recoverForm > .button-container > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#recoverForm > .button-container > .-flex-stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+/*# sourceMappingURL=recover.css.map */

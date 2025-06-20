@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hgc.studyadvanceduserbbs.mappers.BoardMapper">
+    <select id="selectById" resultType="com.hgc.studyadvanceduserbbs.entities.BoardEntity">
+        select `id`            as `id`,
+               `display_text`  as `displayText`,
+               `is_admin_only` as `isAdminOnly`
+        from `saub`.`boards`
+        where `id` = #{id};
+    </select>
+    <select id="selectAll">
+        select `id`            as `id`,
+               `display_text`  as `displayText`,
+               `is_admin_only` as `isAdminOnly`
+        from `saub`.`boards`;
+    </select>
+</mapper>

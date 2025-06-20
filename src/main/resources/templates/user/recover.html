@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>계정 복구 - SAUB</title>
+    <link rel="stylesheet" href="/assets/styles/common.min.css">
+    <link rel="stylesheet" href="/user/assets/styles/recover.min.css">
+    <script src="/assets/scripts/common.js"></script>
+    <script defer src="/user/assets/scripts/recover.js"></script>
+</head>
+<body>
+<th:block th:replace="~{/fragments/header :: header}">
+
+</th:block>
+<div class="--loading" id="loading">
+    <img class="---icon" src="/assets/images/loading.png" alt="">
+    <span class="---caption">잠시만 기다려 주세요.</span>
+</div>
+<form novalidate id="recoverForm">
+    <h1 class="title">계정 복구</h1>
+    <div class="type">
+        <label class="label">
+            <input hidden class="input" name="type" type="radio" value="email">
+            <span class="title">이메일 찾기</span>
+            <span class="message">회원가입시 입력하였던 실명, 생년월일, 통신사, 연락처 정보로 이메일을 찾을 수 있습니다.</span>
+        </label>
+        <label class="label">
+            <input hidden class="input" name="type" type="radio" value="password">
+            <span class="title">비밀번호 재설정</span>
+            <span class="message">이메일 인증을 통해 비밀번호를 재설정할 수 있습니다.</span>
+        </label>
+    </div>
+    <div class="container empty">
+        '이메일 찾기'와 '비밀번호 재설정'중 하나를 선택해 주세요.
+    </div>
+    <div class="container email">
+        <label class="--object-label">
+            <span class="---caption">이름/생년월일/성별</span>
+            <span class="---row">
+                <input type="text" class="--object-field ---field" maxlength="10" minlength="1" name="eName" required
+                       autocomplete="off" placeholder="성 + 이름(공백 없음)">
+                <input required autocomplete="off" class="--object-field ---field" name="eBirth" type="date">
+                <span class="gender-wrapper">
+                    <label class="gender">
+                        <input hidden class="input" name="eGender" value="M" type="radio">
+                        <span class="caption">남자</span>
+                    </label>
+                    <label class="gender">
+                        <input hidden class="input" name="eGender" value="F" type="radio">
+                        <span class="caption">여자</span>
+                    </label>
+                </span>
+            </span>
+            <span class="---warning">닉네임을 입력해 주세요.</span>
+        </label>
+        <label class="--object-label">
+            <span class="---caption">연락처</span>
+            <span class="---row">
+                <select required class="--object-field ---field" name="eContactMvno">
+                    <option disabled hidden selected value="-1">통신사</option>
+                    <option value="SKT">SKT</option>
+                    <option value="KT">KT</option>
+                    <option value="LGU">LGU+</option>
+                    <option value="ETC">알뜰폰</option>
+                </select>
+                <select required class="--object-field ---field" name="eContactFirst">
+                    <option selected value="010">010</option>
+                </select>
+                <input required class="--object-field ---field" maxlength="4" minlength="3" name="eContactSecond">
+                <input required class="--object-field ---field" maxlength="4" minlength="3" name="eContactThird">
+            </span>
+        </label>
+    </div>
+    <div class="container password">
+        <input hidden name="pEmailSalt"type="hidden"/>
+        <label class="--object-label">
+            <span class="---caption">이메일</span>
+            <span class="---row">
+                <input required autocomplete="email" class="--object-field ---field -flex-stretch" maxlength="50"
+                       minlength="8" name="pEmail" type="email" placeholder="user@sample.com">
+                <button class="--object-button -color-green" name="pEmailCodeSendButton" type="button">인증번호 전송</button>
+            </span>
+            <span class="---row">
+                <input disabled required autocomplete="off" class="--object-field ---field -flex-stretch" maxlength="6"
+                       minlength="6" name="pEmailCode" placeholder="000000" type="text"/>
+                <button disabled class="--object-button -color-green" name="pEmailCodeVerifyButton"
+                        type="button">인증번호 확인</button>
+            </span>
+            <span class="---warning">이메일을 입력해 주세요.</span>
+        </label>
+        <label class="--object-label">
+            <span class="---caption">신규 비밀번호</span>
+            <input disabled required autocomplete="off" class="--object-field ---field" maxlength="50" minlength="6" name="pPassword" placeholder="숫자,알파벳,특수기호 6자 이상 50자 이하" type="password">
+            <input disabled required autocomplete="off" class="--object-field ---field" maxlength="50" minlength="6" name="pPasswordCheck" placeholder="비밀번호 재입력" type="password">
+            <span class="---warning">비밀번호를 입력해 주세요.</span>
+        </label>
+    </div>
+    <div class="button-container">
+        <a href="/user/login" class="--object-button -color-gray">
+            <img alt="" class="---icon" src="/user/assets/images/register/register-form.cancel.png">
+            <span class="---caption">취소</span>
+        </a>
+        <button class="--object-button -color-green" type="submit">
+            <img alt="" class="---icon" src="/user/assets/images/register/register-form.next.png">
+            <span class="---caption">계정 복구</span>
+        </button>
+    </div>
+</form>
+</body>
+</html>
